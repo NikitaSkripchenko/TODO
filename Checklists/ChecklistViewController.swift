@@ -48,10 +48,10 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
         item6.text = "Soccer practice"
         items.append(item5)
         
-        print("Documents folder is \(documentsDirectory())")
-        print("Data file path is \(dataFilePath())")
+        //print("Documents folder is \(documentsDirectory())")
+        //print("Data file path is \(dataFilePath())")
         title = checklist.name
-        loadChecklistItems()
+        //loadChecklistItems()
         
     }
     
@@ -66,7 +66,7 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
                 configureText(for: cell, with: item)
             }
         }
-        saveChecklistItems()
+        //saveChecklistItems()
         navigationController?.popViewController(animated: true)
     }
     
@@ -77,7 +77,7 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
         let indexPath = IndexPath(row: newRowIndex, section: 0)
         let indexPaths = [indexPath]
         tableView.insertRows(at: indexPaths, with: .automatic)
-        saveChecklistItems()
+        //saveChecklistItems()
         navigationController?.popViewController(animated: true)
     }
     
@@ -115,7 +115,7 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
             configureCheckMark(for: cell, with: item)
         }
         tableView.deselectRow(at: indexPath, animated: true)
-        saveChecklistItems()
+        //saveChecklistItems()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -137,6 +137,6 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
         checklist.items.remove(at: indexPath.row)
         let indexPaths = [indexPath]
         tableView.deleteRows(at: indexPaths, with: .automatic)
-        saveChecklistItems()
+        //saveChecklistItems()
     }
 }
