@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AllListsViewController: UITableViewController, ListDetailViewControllerDelegate{
+class AllListsViewController: UITableViewController, ListDetailViewControllerDelegate, UINavigationControllerDelegate{
     
     let cellIdentifier = "ChecklistCell"
     var dataModel: DataModel!
@@ -16,6 +16,25 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
     
     func listDetailViewControllerDidCancel(_ controller: ListDetailViewController) {
         navigationController?.popViewController(animated: true)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.delegate = self
+        let index = UserDefaults.standard.integer(forKey: "ChecklistIndex")
+        
+        if index != -1{
+            let checklist = dataModel.lists[index]
+            performSegue(withIdentifier: "ShowChecklist", sender: checklist)
+        }
+    }
+    
+    //This method is called whenever the navigation controller shows a new screen.
+    //If the back button was pressed, the new view controller is AllListsViewController itself and you set the “ChecklistIndex” value in UserDefaults to -1, meaning that no checklist is currently selected.
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        if viewController === self{
+            UserDefaults.standard.set(-1, forKey: "ChecklistIndex")
+        }
     }
     
     func listDetailViewController(_ controller: ListDetailViewController, didFinishEditing checklist: Checklist) {
@@ -95,7 +114,7 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let checklist = dataModel.lists[indexPath.row]
+        UserDefaults.standard.set(indexPath.row, forKey: "ChecklistIndex")
         performSegue(withIdentifier: "ShowChecklist", sender: checklist)
-        
     }
 }
