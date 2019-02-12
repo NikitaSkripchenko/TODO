@@ -11,6 +11,23 @@ import Foundation
 class DataModel{
     var lists = [Checklist]()
     
+    var indexOfSelectChecklist: Int{
+        get{
+            return UserDefaults.standard.integer(forKey: "ChecklistIndex")
+        }
+        set{
+            UserDefaults.standard.set(newValue, forKey: "ChecklistIndex")
+        }
+    }
+    
+    init(){
+        loadChecklists()
+        registerDefaults()
+    }
+    func registerDefaults() {
+        let dictionary = [ "ChecklistIndex": -1, "FirstTime": true ] as [String : Any]
+        UserDefaults.standard.register(defaults: dictionary)
+    }
     
     func documentsDirectory()->URL{
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
@@ -33,7 +50,7 @@ class DataModel{
         }
     }
     
-    func saveChecklist() {
+    func saveChecklists() {
         let encoder = PropertyListEncoder()
         do {
             let data = try encoder.encode(lists)

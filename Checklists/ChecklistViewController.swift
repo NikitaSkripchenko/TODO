@@ -21,38 +21,7 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
-        navigationItem.largeTitleDisplayMode = .never
-        
-        let item1 = ChecklistItem()
-        item1.text = "Walk the dog"
-        items.append(item1)
-        
-        let item2 = ChecklistItem()
-        item2.text = "Brush my teeth"
-        items.append(item2)
-        
-        let item3 = ChecklistItem()
-        item3.text = "Learn iOS development"
-        items.append(item3)
-        
-        let item4 = ChecklistItem()
-        item4.text = "Eat ice cream"
-        items.append(item4)
-        
-        let item5 = ChecklistItem()
-        item5.text = "Soccer practice"
-        items.append(item5)
-        
-        let item6 = ChecklistItem()
-        item6.text = "Soccer practice"
-        items.append(item5)
-        
-        //print("Documents folder is \(documentsDirectory())")
-        //print("Data file path is \(dataFilePath())")
         title = checklist.name
-        //loadChecklistItems()
-        
     }
     
     func itemDetailViewControllerDidCancel(_ controller: ItemDetailV) {
