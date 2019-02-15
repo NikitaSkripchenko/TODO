@@ -57,21 +57,6 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
         }
     }
     
-    func configureCheckMark(for cell: UITableViewCell, with item: ChecklistItem){
-        let label = cell.viewWithTag(1001) as! UILabel
-        if item.checked {
-            label.text = "✅"
-        } else {
-            label.text = "  "
-        }
-    }
-    
-    func configureText(for cell: UITableViewCell, with item: ChecklistItem){
-        let label = cell.viewWithTag(1000) as! UILabel
-        //label.text = item.text
-        label.text = "\(item.itemId): \(item.text)"
-    }
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) {
             let item = checklist.items[indexPath.row]
@@ -86,11 +71,39 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
         return checklist.items.count
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 90
+    }
+    
+    func configureText(for cell: UITableViewCell, with item: ChecklistItem){
+        let label = cell.viewWithTag(1000) as! UILabel
+        label.text = item.text
+        //label.text = "\(item.itemId): \(item.text)"
+    }
+    
+    func configureCheckMark(for cell: UITableViewCell, with item: ChecklistItem){
+        let label = cell.viewWithTag(1001) as! UILabel
+        if item.checked {
+            label.text = "✅"
+        } else {
+            label.text = "  "
+        }
+    }
+    
+    func configureDate(for cell: UITableViewCell, with item: ChecklistItem){
+        let label = cell.viewWithTag(1002) as! UILabel
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d, HH:mm" //Your New Date format as per requirement change it own
+        let newDate = dateFormatter.string(from: item.dueDate)
+        label.text = newDate
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell( withIdentifier: "Checklistitem", for: indexPath)
         let item = checklist.items[indexPath.row]
         configureText(for: cell, with: item)
         configureCheckMark(for: cell, with: item)
+        configureDate(for: cell, with: item)
         return cell
     }
     
