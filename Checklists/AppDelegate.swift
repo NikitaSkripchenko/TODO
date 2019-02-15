@@ -21,26 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         controller.dataModel = dataModel
         
         let center = UNUserNotificationCenter.current()
-        //center.requestAuthorization(options: [.alert, .sound], completionHandler: {
-//            granted, error in
-//            if granted{
-//                print("we have permission")
-                center.delegate = self
-//            }else{
-//                print("we have not permission")
-//            }
-//        })
-//
-//        let alert = UNMutableNotificationContent()
-//        alert.title = "Hey!"
-//        alert.body = "Main Text"
-//        alert.sound = UNNotificationSound.default
-//
-//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
-//        let request = UNNotificationRequest(identifier: "My notification", content: alert, trigger: trigger)
-//        center.add(request)
-        
-        // Override point for customization after application launch.
+        center.delegate = self
         return true
     }
 
