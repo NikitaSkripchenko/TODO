@@ -94,18 +94,22 @@ class ItemDetailV: UITableViewController, UITextFieldDelegate {
     }
     
     func showDatePicker(){
-        datePickerIsVisible = true
-        let indexPathDatePicker = IndexPath(row: 2, section: 1)
-        tableView.insertRows(at: [indexPathDatePicker], with: .fade)
-        datePicker.setDate(dueDate, animated: true)
-        dueDateLabel.textColor = dueDateLabel.tintColor
+        if !datePickerIsVisible{
+            datePickerIsVisible = true
+            let indexPathDatePicker = IndexPath(row: 2, section: 1)
+            tableView.insertRows(at: [indexPathDatePicker], with: .fade)
+            datePicker.setDate(dueDate, animated: true)
+            dueDateLabel.textColor = dueDateLabel.tintColor
+        }
     }
     
     func hideDatePicker(){
-        datePickerIsVisible = false
-        let indexPathDatePicker = IndexPath(row: 2, section: 1)
-        tableView.deleteRows(at: [indexPathDatePicker], with: .fade)
-        dueDateLabel.textColor = .black
+        if datePickerIsVisible{
+            datePickerIsVisible = false
+            let indexPathDatePicker = IndexPath(row: 2, section: 1)
+            tableView.deleteRows(at: [indexPathDatePicker], with: .fade)
+            dueDateLabel.textColor = .black
+        }
     }
     
     
