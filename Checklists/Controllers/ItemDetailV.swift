@@ -40,9 +40,9 @@ class ItemDetailV: UITableViewController, UITextFieldDelegate {
         updateDueDateLabel()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        textField.becomeFirstResponder()
+    @IBAction func dateChanged(_ datePicker: UIDatePicker){
+        dueDate = datePicker.date
+        updateDueDateLabel()
     }
     
     @IBAction func cancel() {
@@ -62,6 +62,11 @@ class ItemDetailV: UITableViewController, UITextFieldDelegate {
             item.dueDate = dueDate
             delegate?.itemDetailViewController(self, didFinishAdding: item)
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        textField.becomeFirstResponder()
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -88,12 +93,36 @@ class ItemDetailV: UITableViewController, UITextFieldDelegate {
         }
     }
     
+    func showDatePicker(){
+        datePickerIsVisible = true
+        let indexPathDatePicker = IndexPath(row: 2, section: 1)
+        tableView.insertRows(at: [indexPathDatePicker], with: .fade)
+        datePicker.setDate(dueDate, animated: true)
+        dueDateLabel.textColor = dueDateLabel.tintColor
+    }
+    
+    func hideDatePicker(){
+        datePickerIsVisible = false
+        let indexPathDatePicker = IndexPath(row: 2, section: 1)
+        tableView.deleteRows(at: [indexPathDatePicker], with: .fade)
+        dueDateLabel.textColor = .black
+    }
+    
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         resignFirstResponder()
         if indexPath.section == 1 && indexPath.row == 1{
-            showDatePicker()
+            if !datePickerIsVisible{
+                showDatePicker()
+            }else{
+                hideDatePicker()
+            }
         }
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        hideDatePicker()
     }
     
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
@@ -112,11 +141,6 @@ class ItemDetailV: UITableViewController, UITextFieldDelegate {
         return super.tableView(tableView, indentationLevelForRowAt: newIndexPath)
     }
     
-    func showDatePicker(){
-        datePickerIsVisible = true
-        let indexPathDatePicker = IndexPath(row: 2, section: 1)
-        tableView.insertRows(at: [indexPathDatePicker], with: .fade)
-    }
     
     // MARK:- Text Field Delegates
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
