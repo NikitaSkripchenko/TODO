@@ -8,9 +8,10 @@
 
 import UIKit
 import CoreData
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     let dataModel = DataModel()
     var window: UIWindow?
 
@@ -18,10 +19,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navigationController = window!.rootViewController as! UINavigationController
         let controller = navigationController.viewControllers[0] as! AllListsViewController
         controller.dataModel = dataModel
+        
+        let center = UNUserNotificationCenter.current()
+        //center.requestAuthorization(options: [.alert, .sound], completionHandler: {
+//            granted, error in
+//            if granted{
+//                print("we have permission")
+                center.delegate = self
+//            }else{
+//                print("we have not permission")
+//            }
+//        })
+//
+//        let alert = UNMutableNotificationContent()
+//        alert.title = "Hey!"
+//        alert.body = "Main Text"
+//        alert.sound = UNNotificationSound.default
+//
+//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+//        let request = UNNotificationRequest(identifier: "My notification", content: alert, trigger: trigger)
+//        center.add(request)
+        
         // Override point for customization after application launch.
         return true
     }
 
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        print("Received: \(notification)")
+    }
     
     func saveData(){
         dataModel.saveChecklists()
